@@ -7,6 +7,8 @@ const server=http.createServer(app);
 const socket_io=require("socket.io");
 const io=socket_io(server);
 
+const handler=require("./sockets/handler");
+
 // const bodyParser=require("body-parser");
 const dotenv=require("dotenv");
 dotenv.config();
@@ -39,10 +41,10 @@ app.use("/users", dataRouter);
 
 //socket.io
 io.on("connection", socket=>{
-    console.log("A user has joined");
-    console.log(socket.id);
+    console.log(`A user with the id ${socket.id} has joined`);
+    handler(socket);
     socket.on("disconnect", ()=>{
-        console.log("a user has disconnected just now");
+        console.log(`The user with the id ${socket.id} has just disconnected`);
     });
 });
 
