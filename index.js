@@ -37,10 +37,7 @@ app.use(cors());
 app.use(express.json());
 
 //for the sake of testing...
-app.get("/", (req, res)=>{
-        return res.status(200).send("Server is up the running");
-});
-
+app.use("/", signRouter);
 app.use("/sign", signRouter);
 app.use("/users", dataRouter);
 
