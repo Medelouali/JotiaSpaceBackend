@@ -34,6 +34,11 @@ mongoose.connect(process.env.URI,
 app.use(cors());
 app.use(express.json());
 
+//for testing purpose...
+app.get("/", (req, res)=>{
+    return res.status(200).send({data: "Server is up and running", error: false});
+});
+
 app.use("/sign", signRouter);
 app.use("/users", dataRouter);
 
