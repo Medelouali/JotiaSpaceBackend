@@ -15,7 +15,24 @@ const schema=new mongoose.Schema({
         type: String,
         required: true
     },
-    bio: String,
+    occupation: {
+        type: String,
+        required: true,
+        default: ""
+    },
+    location: {
+        type: String,
+        required: true,
+        default: ""
+    },
+    bio: {
+        type: String,
+        default: ""
+    },
+    discreption:{
+        type: String,
+        default: ""
+    },
     avatar: Buffer,
     posts:[
         {
@@ -25,6 +42,10 @@ const schema=new mongoose.Schema({
             },
             poster_name: String,
             urls:[ String ],
+            postTime:{
+                type: Date,
+                default: Date.now
+            },
             description: {
                 type: String,
                 default: ""
@@ -103,6 +124,10 @@ const schema=new mongoose.Schema({
     unread_inv: {
         type: Number,
         default: 0
+    },
+    signUpTime:{
+        type: Date,
+        default: Date.now
     }
 });
 

@@ -44,6 +44,8 @@ const signUp=async(req, res, next)=>{
         _id: new mongoose.Types.ObjectId(),
         username: req.body.username,
         email: req.body.email,
+        location: req.body.location,
+        occupation: req.body.occupation,
         password: hashed
     });
     
