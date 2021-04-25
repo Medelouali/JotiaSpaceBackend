@@ -7,27 +7,16 @@ const server=http.createServer(app);
 const socket_io=require("socket.io");
 const io=socket_io(server);
 
-// const bodyParser=require("body-parser");
 const dotenv=require("dotenv");
 dotenv.config();
 //routers:
 const signRouter=require("./routes/sign/sign");
 const dataRouter=require("./routes/sign/data/userRouter");
 
-const PORT=process.env.PORT || 5000;
+//Event handler...
+const handleEvent=require("./sockets/events/handleEvent");
 
-//mongoose connection{database}:
-const mongoose=require("mongoose");
-mongoose.connect(process.env.URI,
-    { 
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true }).
-        then(()=>{
-            console.log("connected to the database");
-        }).catch(()=>{
-            console.log("Can't connect to the database...");
-        });
+const PORT=process.env.PORT || 5000;
 
 //routes:
 // app.use(bodyParser);
@@ -44,8 +33,7 @@ app.use("/users", dataRouter);
 
 //socket.io
 io.on("connection", socket=>{
-    console.log("A user has joined");
-    console.log(socket.id);
+    handleEvent(socket);
     socket.on("disconnect", ()=>{
         console.log("a user has disconnected just now");
     });

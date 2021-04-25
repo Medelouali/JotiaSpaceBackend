@@ -97,7 +97,7 @@ const schema=new mongoose.Schema({
                         type: Boolean,
                         default: false
                     },
-                    receiver:{
+                    received:{
                         type: Boolean,
                         default: false
                     },

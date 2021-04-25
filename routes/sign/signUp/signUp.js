@@ -1,12 +1,12 @@
-const User=require("../../../models/users");
-const mongoose = require("mongoose");
+//const User=require("../../../models/users");
+const pool = require("../../../models/pool");
 const jwt=require("jsonwebtoken");
 const { digest, isInDatabase } =require("./helpers");
 const { SignUpSchema } =require("./joiSchema");
 
 
 const signUp=async(req, res, next)=>{
-    const response={
+    var response={
         error: "",
         data: {}
     };
@@ -31,38 +31,40 @@ const signUp=async(req, res, next)=>{
 
     try {
         const inDatabase= await isInDatabase(req.body.email);
-        console.log(inDatabase);
         if(inDatabase){
             response.error="This email has been already used, please use another one";
             return res.send(response);
         }
     } catch (error) {
         console.log(error)
-    }
+        return res.status(500).send("Error");
+    };
 
-    const user=new User({
-        _id: new mongoose.Types.ObjectId(),
-        username: req.body.username,
-        email: req.body.email,
-        location: req.body.location,
-        occupation: req.body.occupation,
-        password: hashed
-    });
+    const user=[
+        req.body.username,
+        req.body.email,
+        req.body.location,
+        req.body.occupation,
+        hashed
+    ];
     
-    
-    user.save((error, result)=>{
-        if(error){
-            response.error="Networking error, please try again";
-            console.log(error);
+    pool
+        .query(`INSERT INTO client(username, userEmail, userLocation, userOccupation, userPassword) 
+                VALUES($1, $2, $3, $4, $5) RETURNING *`, user)
+        .then(result=>{
+            response.data=result.rows;
+            const token=jwt.sign({email: response.data.email}, process.env.JWT_KEY);
+            res.header("auth-token", token);
             res.send(response);
-            return;
-        }
-        result.password="";
-        response.data=result;
-        const token=jwt.sign({email: result.email}, process.env.JWT_KEY);
-        res.header("auth-token", token);
-        res.send(response);
-    }) 
+        })
+        .catch(err=>{
+            if(err.constraint==="client_useremail_key")
+                response.error="This email has been used, please choose another one.";
+            else {
+                response.error=err;
+                return res.status(400).send(response);
+            }
+        });
 }
 
 module.exports=signUp;
