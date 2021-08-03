@@ -9,7 +9,7 @@ const authenticated = async (req, res, next)=>{
         next();
     }catch(e){
         return res.status(400).send({
-            error: "Sorry, you must login first or sign up for a new account",
+            error: "Sorry, you must login first or sign up for a new account.",
             data: ""
         })
     }
