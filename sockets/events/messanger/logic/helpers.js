@@ -1,4 +1,4 @@
-const User=require("../../../../models/users");
+const User=require("../../../../models/User");
 
 const alreadyTalked = async(host_id, talker_id)=>{
     const result={

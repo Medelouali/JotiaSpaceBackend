@@ -1,4 +1,4 @@
-const User=require("../../../models/users");
+const User=require("../../../models/User");
 const alreadyTalked = require("./logic/helpers");
 
 //date={from: id, to: id, msg: text};

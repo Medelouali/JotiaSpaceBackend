@@ -1,7 +1,7 @@
 const { SignInSchema } = require("../signUp/joiSchema");
-const bcrypt=require("bcryptjs");
-const jwt=require("jsonwebtoken");
-const pool = require("../../../models/pool");
+const User=require("../../../models/User");
+
+const { digest } = require("../signUp/helpers");
 
 const signIn=async(req, res, next)=>{
     const response={
@@ -15,25 +15,21 @@ const signIn=async(req, res, next)=>{
         return res.send(response);
     }
 
-    pool.query(`SELECT * FROM client WHERE userEmail=$1`, [req.body.email])
-        .then(async(user)=>{
-            console.log(user);
-            const isValid=await bcrypt.compare(req.body.password, user.userpassword);
-            if(!isValid){
-                response.error="Incorrect password, please try THE FORGET PASSWORD option.";
-                return res.send(response);
-            }
-            const token=jwt.sign({_id: user._id}, process.env.JWT_KEY);
-            res.header("auth-token", token);
-            user.password="";
+    try {
+        const pass=await digest(req.body.password);
+        const user=await User.findOne({email: req.body.email, password: pass});
+        if(user){
             response.data=user;
             return res.status(200).send(response);
-        })
-        .catch((err)=>{
-            response.error="You don't have an account, please sign up.";
-            console.error(err);
-            return res.send(response);
-        })
+        }
+        response.error="You don't have an account, please register";
+        return res.status(400).send(response);
+    } catch (error) {
+        response.error="Connection error, please try later";
+        return res.status(400).send(response);
+    }
+
+
 }
 
 module.exports=signIn;

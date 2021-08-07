@@ -1,6 +1,5 @@
 const bcrypt=require("bcryptjs");
-//const User=require("../../../models/users");
-const pool=require("../../../models/pool");
+const User=require("../../../models/User");
 
 const digest=async(password)=>{
     const salt=await bcrypt.genSalt(16);
@@ -9,13 +8,14 @@ const digest=async(password)=>{
 }
 
 const isInDatabase=async(em)=>{
-    let flag=false;
-    try {
-        const doesExist=await pool.query("SELECT * FROM client WHERE useremail=$1", [em]);
-        flag=(doesExist.rows[0] ? true: false);
-    } catch (error) {
-        console.log(error);
-    }
-    return flag;
+    // try {
+    //     const doesExist=await User.findOne({email: em});
+    //     console.log(doesExist);
+    //     return doesExist ? true: false;
+    // } catch (error) {
+    //     console.log(error);
+    //     return true;
+    // }
+    return false;
 }
 module.exports={ digest, isInDatabase };

@@ -2,8 +2,7 @@ const sendInvitation = require("./messanger/sendInvitation");
 const sendMessage = require("./messanger/sendMessage");
 
 const handleEvent=(socket)=>{
-    socket.on("Message", sendMessage(socket));
-    socket.on("Invitation", sendInvitation(socket));
+    console.log("User has just connected, id: ", socket.id);
 };
 
 module.exports=handleEvent;

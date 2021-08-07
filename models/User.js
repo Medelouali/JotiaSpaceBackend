@@ -2,7 +2,6 @@ const mongoose=require("mongoose");
 
 
 const schema=new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     username: {
         type: String,
         required: true
@@ -40,8 +39,11 @@ const schema=new mongoose.Schema({
                 type: String,
                 default: ""
             },
-            poster_name: String,
-            urls:[ String ],
+            poster_name: {
+                type: String,
+                default: "",
+            },
+            urls:[ Buffer ],
             postTime:{
                 type: Date,
                 default: Date.now
