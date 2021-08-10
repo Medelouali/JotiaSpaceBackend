@@ -1,5 +1,4 @@
 const bcrypt=require("bcryptjs");
-const User=require("../../../models/User");
 
 const digest=async(password)=>{
     const salt=await bcrypt.genSalt(16);

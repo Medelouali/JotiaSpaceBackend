@@ -11,8 +11,9 @@ const dotenv=require("dotenv");
 dotenv.config();
 
 //routers:
-const signRouter=require("./routes/sign/sign.js");
-const dataRouter=require("./routes/data/userRouter.js");
+const signRouter=require("./requests/post/routes/sign/sign.js");
+const dataRouter=require("./requests/get/routes/data/userRouter.js");
+
 const PORT=process.env.PORT || 5000;
 
 //Event handlers...
@@ -35,8 +36,15 @@ app.get("/", (req, res)=>{
     return res.status(200).send({data: "Server is up and running right now", error: false});
 });
 
+//post
 app.use("/sign", signRouter);
+
+//get
 app.use("/users", dataRouter);
+
+//delete
+
+//patch
 
 //socket.io
 io.on("connection", socket=>{

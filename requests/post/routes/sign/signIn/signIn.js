@@ -1,5 +1,5 @@
-const { SignInSchema } = require("../signUp/joiSchema");
-const User=require("../../../models/User");
+const { SignInSchema } = require("../signUp/joiSchema.js");
+const User=require("../../../../../database/models/User.js");
 
 const { digest } = require("../signUp/helpers");
 
@@ -17,8 +17,13 @@ const signIn=async(req, res, next)=>{
 
     try {
         const pass=await digest(req.body.password);
-        const user=await User.findOne({email: req.body.email, password: pass});
+        const user=await User.findOne({email: req.body.email});
         if(user){
+            console.log(`pass: ${pass}, \npassword: ${user.password}`);
+            if(user.password!==pass){
+                response.error="Wrong password, please try again";
+                return res.status(400).send(response);
+            }
             response.data=user;
             return res.status(200).send(response);
         }

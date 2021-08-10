@@ -1,4 +1,4 @@
-const User=require("../../models/User");
+const User=require("../../../../database/models/User.js");
 
 const userData=async(req, res)=>{
     const response={
