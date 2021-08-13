@@ -1,7 +1,8 @@
 const jwt=require("jsonwebtoken");
 
-const authenticated = async (req, res, next)=>{
+module.exports = async (req, res, next)=>{
     const token=req.header("auth-token");
+    if(!token) return res.status(400).send({error: "Not authorized", data: ""});
     try{
         const verified=await jwt.verify(token, process.env.JWT_KEY);
         req.payload=verified;
@@ -14,5 +15,3 @@ const authenticated = async (req, res, next)=>{
         })
     }
 }
-
-module.exports = { authenticated } ;

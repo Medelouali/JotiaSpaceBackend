@@ -31,8 +31,6 @@ const signUp=async(req, res, next)=>{
     };
 
     try {
-        const token=jwt.sign({email: response.data.email}, process.env.JWT_KEY);
-        res.header("auth-token", token);
         const inDatabase= await isInDatabase(req.body.email);
         if(inDatabase){
             response.error="This email has been already used, please use another one";
@@ -53,6 +51,8 @@ const signUp=async(req, res, next)=>{
     
     try{
         const savedUser= await userInstance.save();
+        const token=jwt.sign({email: response.data.email, _id: response.data._id}, process.env.JWT_KEY);
+        res.header("auth-token", token);
         return res.status(200).send({error: "", data: savedUser});
     }catch(err){
         console.log(err);

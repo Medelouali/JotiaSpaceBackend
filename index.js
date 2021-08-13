@@ -11,9 +11,9 @@ const dotenv=require("dotenv");
 dotenv.config();
 
 //routers:
+const authorized=require("./logic/validators/auth.js");
 const signRouter=require("./requests/post/routes/sign/sign.js");
-const dataRouter=require("./requests/get/routes/data/userRouter.js");
-
+const postsRouter=require("./requests/post/routes/posts/saveIt/saveIt.js");
 const PORT=process.env.PORT || 5000;
 
 //Event handlers...
@@ -38,9 +38,9 @@ app.get("/", (req, res)=>{
 
 //post
 app.use("/sign", signRouter);
+app.use("/posts", authorized, postsRouter);
 
 //get
-app.use("/users", dataRouter);
 
 //delete
 
