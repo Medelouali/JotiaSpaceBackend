@@ -52,6 +52,7 @@ const signUp=async(req, res, next)=>{
     try{
         const savedUser= await userInstance.save();
         const token=jwt.sign({email: response.data.email, _id: response.data._id}, process.env.JWT_KEY);
+        console.log(token);
         res.header("auth-token", token);
         return res.status(200).send({error: "", data: savedUser});
     }catch(err){

@@ -2,7 +2,7 @@ const { SignInSchema } = require("../signUp/joiSchema.js");
 const User=require("../../../../../database/models/User.js");
 const jwt=require("jsonwebtoken");
 
-const { digest } = require("../signUp/helpers");
+const { validPassword } = require("../signUp/helpers");
 
 const signIn=async(req, res, next)=>{
     const response={
@@ -17,15 +17,16 @@ const signIn=async(req, res, next)=>{
     }
 
     try {
-        const pass=await digest(req.body.password);
         const user=await User.findOne({email: req.body.email});
         if(user){
-            if(user.password!==pass){
+            const isValid=validPassword(req.body.password, user.password);
+            // console.log(req.body.password, ", ", user.password);
+            if(!isValid){
                 response.error="Wrong password, please try again";
                 return res.status(400).send(response);
             }
             response.data=user;
-            const token=jwt.sign({_id: user._id}, process.env.JWT_KEY);
+            const token=jwt.sign({_id: user._id, email: user.email}, process.env.JWT_KEY);
             res.header("auth-token", token);
             return res.status(200).send(response);
         }

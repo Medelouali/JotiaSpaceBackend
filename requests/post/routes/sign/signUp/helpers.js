@@ -1,20 +1,23 @@
 const bcrypt=require("bcryptjs");
+const User=require("../../../../../database/models/User.js");
 
 const digest=async(password)=>{
-    const salt=await bcrypt.genSalt(16);
+    const salt=await bcrypt.genSalt(10);
     const hashed=await bcrypt.hash(password, salt);
     return hashed;
 }
 
-const isInDatabase=async(em)=>{
-    // try {
-    //     const doesExist=await User.findOne({email: em});
-    //     console.log(doesExist);
-    //     return doesExist ? true: false;
-    // } catch (error) {
-    //     console.log(error);
-    //     return true;
-    // }
-    return false;
+const validPassword=async(pass, hash)=>{
+    const isValid=await bcrypt.compare(pass, hash);
+    return isValid;
 }
-module.exports={ digest, isInDatabase };
+const isInDatabase=async(em)=>{
+    try {
+        const doesExist=await User.findOne({email: em});
+        return doesExist ? true: false;
+    } catch (error) {
+        console.log(error);
+        return true;
+    }
+}
+module.exports={ digest, isInDatabase, validPassword };

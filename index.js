@@ -11,9 +11,11 @@ const dotenv=require("dotenv");
 dotenv.config();
 
 //routers:
-const authorized=require("./logic/validators/auth.js");
+const authorized=require("./logic/security/authorized.js");
+
 const signRouter=require("./requests/post/routes/sign/sign.js");
-const postsRouter=require("./requests/post/routes/posts/saveIt/saveIt.js");
+const postsRouter=require("./requests/post/routes/posts/postsRouter.js");
+
 const PORT=process.env.PORT || 5000;
 
 //Event handlers...
@@ -22,7 +24,7 @@ const handleEvent=require("./sockets/events/handleEvent");
 //connecting to the database...
 mongoose.connect(process.env.URI, { useNewUrlParser: true , useUnifiedTopology: true, useCreateIndex: true });
     const db=mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
+    db.on('error', console.error.bind(console, 'connection error: '));
     db.once('open', function() {
         console.log("Connected to the database...");
     });
@@ -33,14 +35,14 @@ app.use(express.json());
 
 //for testing purpose only...
 app.get("/", (req, res)=>{
-    return res.status(200).send({data: "Server is up and running right now", error: false});
+    return res.status(200).send({data: "Server is up and running right now...", error: false});
 });
 
 //post
 app.use("/sign", signRouter);
 app.use("/posts", authorized, postsRouter);
 
-//get
+//getsome
 
 //delete
 
