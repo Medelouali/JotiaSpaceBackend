@@ -19,15 +19,15 @@ const signIn=async(req, res, next)=>{
     try {
         const user=await User.findOne({email: req.body.email});
         if(user){
-            const isValid=validPassword(req.body.password, user.password);
-            // console.log(req.body.password, ", ", user.password);
+            const isValid=await validPassword(req.body.password, user.password);
             if(!isValid){
                 response.error="Wrong password, please try again";
                 return res.status(400).send(response);
-            }
+            };
             response.data=user;
             const token=jwt.sign({_id: user._id, email: user.email}, process.env.JWT_KEY);
             res.header("auth-token", token);
+            // console.log(token);
             return res.status(200).send(response);
         }
         response.error="You don't have an account, please register";

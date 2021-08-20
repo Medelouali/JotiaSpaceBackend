@@ -4,7 +4,7 @@ const mongoose=require("mongoose");
 const savePost=async(req, res, next)=>{
     try {
         const user=await User.findById(mongoose.Types.ObjectId("610eb713baac6749309d8251"));
-        // console.log(req.payload._id);
+        console.log(req.payload._id);
         // console.log("_id: ", req.payload._id);
         console.log("user: ", user);
         // console.log(user);
