@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
-
+// const Message = require("./Message.js");
+// const Post=require("./Post.js");
 
 const schema=new mongoose.Schema({
     username: {
@@ -33,84 +34,10 @@ const schema=new mongoose.Schema({
         default: ""
     },
     avatar: Buffer,
-    posts:[
-        {
-            categorie: {
-                type: String,
-                default: ""
-            },
-            poster_name: {
-                type: String,
-                default: "",
-            },
-            urls:[ Buffer ],
-            postTime:{
-                type: Date,
-                default: Date.now
-            },
-            description: {
-                type: String,
-                default: ""
-            },
-            comments:[
-                {
-                    commenter_id: mongoose.Schema.Types.ObjectId,
-                    comment: {
-                        type: String,
-                        required: true
-                    },
-                }
-            ],
-            loves: {
-                type: Number,
-                default: 0
-            },
-            likes: {
-                type: Number,
-                default: 0
-            },
-            dislikes: {
-                type: Number,
-                default: 0
-            },
-            lools: {
-                type: Number,
-                default: 0
-            }
-        }
-    ],
+    posts:[ ],
     friends_id:[ mongoose.Schema.Types.ObjectId ],
     current_chatters:[ mongoose.Schema.Types.ObjectId ],
-    messages:[
-        {
-            sender_id: mongoose.Schema.Types.ObjectId,
-            receiver_id: mongoose.Schema.Types.ObjectId,
-            chatter_name: String,
-            chatter_image: Buffer,
-            chats:[ 
-                {
-                    sender_id: mongoose.Schema.Types.ObjectId,
-                    chat: String,
-                    timeStamp: {
-                        type: Date,
-                        default: Date.now,
-                    },
-                    sent:{
-                        type: Boolean,
-                        default: false
-                    },
-                    received:{
-                        type: Boolean,
-                        default: false
-                    },
-                    viewed:{
-                        type: Boolean,
-                        default: false
-                    }
-                }
-            ] 
-        }
-    ],
+    messages:[  ],
     unread_mes: {
         type: Number,
         default: 0

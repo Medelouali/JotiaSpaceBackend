@@ -4,7 +4,7 @@ const jwt=require("jsonwebtoken");
 
 const { validPassword } = require("../signUp/helpers");
 
-const signIn=async(req, res, next)=>{
+const signIn=async(req, res)=>{
     const response={
         error: "",
         data: {}
@@ -14,7 +14,7 @@ const signIn=async(req, res, next)=>{
     if(valid.error){
         response.error=valid.error.details[0].message;
         return res.send(response);
-    }
+    };
 
     try {
         const user=await User.findOne({email: req.body.email});
@@ -26,8 +26,7 @@ const signIn=async(req, res, next)=>{
             };
             response.data=user;
             const token=jwt.sign({_id: user._id, email: user.email}, process.env.JWT_KEY);
-            res.header("auth-token", token);
-            // console.log(token);
+            res.cookie("Authentificaton-Token", token);
             return res.status(200).send(response);
         }
         response.error="You don't have an account, please register";

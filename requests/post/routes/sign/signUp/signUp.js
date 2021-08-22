@@ -5,7 +5,7 @@ const { digest, isInDatabase } =require("./helpers");
 const { SignUpSchema } =require("./joiSchema");
 
 
-const signUp=async(req, res, next)=>{
+const signUp=async(req, res)=>{
     var response={
         error: "",
         data: {}
@@ -51,9 +51,8 @@ const signUp=async(req, res, next)=>{
     
     try{
         const savedUser= await userInstance.save();
-        const token=jwt.sign({email: response.data.email, _id: response.data._id}, process.env.JWT_KEY);
-        // console.log(token);
-        res.header("auth-token", token);
+        const token=jwt.sign({email: savedUser.email, _id: savedUser._id}, process.env.JWT_KEY, {expiresIn: "1h"});
+        res.cookie("Authentificaton-Token", token);
         return res.status(200).send({error: "", data: savedUser});
     }catch(err){
         console.log(err);

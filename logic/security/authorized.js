@@ -1,8 +1,8 @@
 const jwt=require("jsonwebtoken");
 
-const authorized = async (req, res, next)=>{
-    const token=req.header("auth-token");
-    if(!token) return res.status(400).send({error: "Not authorized", data: {}});
+const authorized = (req, res, next)=>{
+    const token=req.cookies["Authentificaton-Token"];
+    if(!token) return res.status(401).send({error: "Not authorized", data: {}});
     try{
         const verified=jwt.verify(token, process.env.JWT_KEY);
         req.payload=verified;

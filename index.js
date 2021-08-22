@@ -10,6 +10,7 @@ const io=socket_io(server);
 const dotenv=require("dotenv");
 dotenv.config();
 
+const cookieParser=require("cookie-parser");
 //routers:
 const authorized=require("./logic/security/authorized.js");
 
@@ -22,7 +23,8 @@ const PORT=process.env.PORT || 5000;
 const handleEvent=require("./sockets/events/handleEvent");
 
 //connecting to the database...
-mongoose.connect(process.env.URI, { useNewUrlParser: true , useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect(process.env.URI, 
+    { useNewUrlParser: true , useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
     const db=mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error: '));
     db.once('open', function() {
@@ -32,6 +34,7 @@ mongoose.connect(process.env.URI, { useNewUrlParser: true , useUnifiedTopology: 
 //routes:
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 //for testing purpose only...
 app.get("/", (req, res)=>{
