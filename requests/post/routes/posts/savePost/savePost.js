@@ -15,10 +15,9 @@ const savePost=async(req, res)=>{
             lastPrice: req.body.lastPrice,
             productName: req.body.productName,
             itemsNumber: req.body.itemsNumber,
-            productLifetime: req.productLifetime,
+            productLifetime: req.body.productLifetime,
             categorie: req.body.categorie,
-            description: req.body.description,
-            poster_id: req.payload._id
+            description: req.body.description
         };
         const result=PostSchema.validate(product);
         if(result.error){
@@ -34,7 +33,6 @@ const savePost=async(req, res)=>{
         });
         response.done="Post uploaded successfully...";
         response.data=user;
-        console.log(error);
         return res.status(200).send(response);
     } catch (error) {
         console.log(error);

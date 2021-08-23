@@ -2,6 +2,7 @@ const jwt=require("jsonwebtoken");
 
 const authorized = (req, res, next)=>{
     const token=req.cookies["Authentificaton-Token"];
+    console.log(token);
     if(!token) return res.status(401).send({error: "Not authorized", data: {}});
     try{
         const verified=jwt.verify(token, process.env.JWT_KEY);
