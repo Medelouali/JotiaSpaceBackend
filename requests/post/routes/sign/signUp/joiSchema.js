@@ -22,7 +22,6 @@ const PostSchema=Joi.object({
     model: Joi.string().max(100).required(),
     productLifetime: Joi.string().max(100).required(),
     itemsNumber: Joi.number().min(0),
-    poster_id: Joi.string().required(),
     description: Joi.string().max(2021).required()
 });
 
