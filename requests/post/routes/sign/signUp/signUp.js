@@ -6,7 +6,7 @@ const { SignUpSchema } =require("../../../../../logic/joi/joiSchema.js");
 
 
 const signUp=async(req, res)=>{
-    var response={
+    const response={
         error: "",
         data: {},
         tokens: {}
