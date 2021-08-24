@@ -1,8 +1,7 @@
 const User=require("../../../../../database/models/User.js");
 const mongoose=require("mongoose");
-const { PostSchema } = require("../../sign/signUp/joiSchema.js");
+const { PostSchema } = require("../../../../../logic/joi/joiSchema.js");
 const Post = require("../../../../../database/models/Post.js");
-const { findByIdAndUpdate } = require("../../../../../database/models/Post.js");
 
 
 const savePost=async(req, res)=>{
@@ -10,18 +9,19 @@ const savePost=async(req, res)=>{
 
     try {
         const product={
-            model: req.body.model,
-            countryCity: req.body.countryCity,
-            lastPrice: req.body.lastPrice,
-            productName: req.body.productName,
-            itemsNumber: req.body.itemsNumber,
-            productLifetime: req.body.productLifetime,
-            categorie: req.body.categorie,
-            description: req.body.description
+            model: req.body.post.model,
+            countryCity: req.body.post.countryCity,
+            lastPrice: req.body.post.lastPrice,
+            productName: req.body.post.productName,
+            itemsNumber: req.body.post.itemsNumber,
+            productLifetime: req.body.post.productLifetime,
+            category: req.body.post.category,
+            description: req.body.post.description
         };
         const result=PostSchema.validate(product);
         if(result.error){
             response.error=result.error.details[0].message;
+            console.log(response);
             return res.status(400).send(response);
         };
         
@@ -31,8 +31,9 @@ const savePost=async(req, res)=>{
                 posts: post
             }
         });
-        response.done="Post uploaded successfully...";
-        response.data=user;
+        console.log(user);
+        response.done=true;
+        response.data="Post uploaded successfully...";
         return res.status(200).send(response);
     } catch (error) {
         console.log(error);

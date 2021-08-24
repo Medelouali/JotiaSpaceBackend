@@ -2,13 +2,14 @@ const User=require("../../../../../database/models/User.js");
 
 const jwt=require("jsonwebtoken");
 const { digest, isInDatabase } =require("./helpers");
-const { SignUpSchema } =require("./joiSchema");
+const { SignUpSchema } =require("../../../../../logic/joi/joiSchema.js");
 
 
 const signUp=async(req, res)=>{
     var response={
         error: "",
-        data: {}
+        data: {},
+        tokens: {}
     };
 
     if(req.body.password!==req.body.confirm){
@@ -52,7 +53,7 @@ const signUp=async(req, res)=>{
     try{
         const savedUser= await userInstance.save();
         const token=jwt.sign({email: savedUser.email, _id: savedUser._id}, process.env.JWT_KEY, {expiresIn: "1h"});
-        res.cookie("Authentificaton-Token", token);
+        response.tokens["authToken"]=token;
         return res.status(200).send({error: "", data: savedUser});
     }catch(err){
         console.log(err);

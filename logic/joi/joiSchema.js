@@ -15,7 +15,7 @@ const SignInSchema=Joi.object({
 });
 
 const PostSchema=Joi.object({
-    categorie: Joi.string().max(100).required(),
+    category: Joi.string().max(100).required(),
     countryCity: Joi.string().max(100).required(),
     productName: Joi.string().max(100).required(),
     lastPrice: Joi.string().max(100).required(),

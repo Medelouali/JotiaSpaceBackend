@@ -1,4 +1,4 @@
-const { SignInSchema } = require("../signUp/joiSchema.js");
+const { SignInSchema } = require("../../../../../logic/joi/joiSchema");
 const User=require("../../../../../database/models/User.js");
 const jwt=require("jsonwebtoken");
 
@@ -7,7 +7,8 @@ const { validPassword } = require("../signUp/helpers");
 const signIn=async(req, res)=>{
     const response={
         error: "",
-        data: {}
+        data: {},
+        tokens: {}
     };
 
     const valid=SignInSchema.validate(req.body);
@@ -26,13 +27,14 @@ const signIn=async(req, res)=>{
             };
             response.data=user;
             const token=jwt.sign({_id: user._id, email: user.email}, process.env.JWT_KEY);
-            res.cookie("Authentificaton-Token", token);
+            response.tokens["authToken"]=token;
             return res.status(200).send(response);
         }
         response.error="You don't have an account, please register";
         return res.status(400).send(response);
     } catch (error) {
         response.error="Connection error, please try later";
+        console.log(error);
         return res.status(400).send(response);
     }
 
