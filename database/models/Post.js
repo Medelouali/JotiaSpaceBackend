@@ -6,6 +6,10 @@ const mongoose=require("mongoose");
             <Field field_name="Product Lifetime" label="productLiftime"/>            
             <Field field_name="Model/Type" label="modelType"/> */}
 const postSchema=new mongoose.Schema({
+        posterName:{
+            type: String,
+            required: true
+        },
         countryCity:{
             type: String,
             default: ""

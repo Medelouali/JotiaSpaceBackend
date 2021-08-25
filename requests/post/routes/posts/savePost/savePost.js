@@ -7,8 +7,9 @@ const Post = require("../../../../../database/models/Post.js");
 const savePost=async(req, res)=>{
     const response={ error: {}, data: "", done: false};
 
-    try {
+    try{
         const product={
+            posterName: req.body.post.posterName,
             model: req.body.post.model,
             countryCity: req.body.post.countryCity,
             lastPrice: req.body.post.lastPrice,

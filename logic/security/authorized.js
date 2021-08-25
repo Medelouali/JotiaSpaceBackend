@@ -1,7 +1,7 @@
 const jwt=require("jsonwebtoken");
 
 const authorized = async(req, res, next)=>{
-    const token=req.body.tokens.authToken;
+    const token=req.body.tokens?.authToken;
     console.log(token);
     if(!token) return res.status(401).send({error: "Not authorized", data: {}});
     try{

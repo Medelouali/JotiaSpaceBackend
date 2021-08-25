@@ -16,13 +16,15 @@ const SignInSchema=Joi.object({
 
 const PostSchema=Joi.object({
     category: Joi.string().max(100).required(),
+    posterName: Joi.string().max(100).required(),
     countryCity: Joi.string().max(100).required(),
     productName: Joi.string().max(100).required(),
     lastPrice: Joi.string().max(100).required(),
     model: Joi.string().max(100).required(),
     productLifetime: Joi.string().max(100).required(),
     itemsNumber: Joi.string().max(50).required(),
-    description: Joi.string().max(2021).required()
+    description: Joi.string().max(2021).required(),
+    posterName: Joi.string().max(70).required()
 });
 
 module.exports={ SignUpSchema, SignInSchema,  PostSchema };
