@@ -54,7 +54,8 @@ const signUp=async(req, res)=>{
         const savedUser= await userInstance.save();
         const token=jwt.sign({email: savedUser.email, _id: savedUser._id}, process.env.JWT_KEY, {expiresIn: "1h"});
         response.tokens["authToken"]=token;
-        return res.status(200).send({error: "", data: savedUser});
+        response.data=savedUser;
+        return res.status(200).send(response);
     }catch(err){
         console.log(err);
         response.error="Connection error, please try later";

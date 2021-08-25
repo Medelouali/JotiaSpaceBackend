@@ -19,8 +19,8 @@ const postSchema=new mongoose.Schema({
             default: "0$"
         },
         itemsNumber:{
-            type: Number,
-            default: 1
+            type: String,
+            default: ""
         },
         productLifetime:{
             type: String,

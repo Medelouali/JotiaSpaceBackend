@@ -21,7 +21,7 @@ const PostSchema=Joi.object({
     lastPrice: Joi.string().max(100).required(),
     model: Joi.string().max(100).required(),
     productLifetime: Joi.string().max(100).required(),
-    itemsNumber: Joi.number().min(0),
+    itemsNumber: Joi.string().max(50).required(),
     description: Joi.string().max(2021).required()
 });
 
