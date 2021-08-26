@@ -20,7 +20,7 @@ const postsRouter=require("./requests/post/routes/posts/postsRouter.js");
 const PORT=process.env.PORT || 5000;
 
 //Event handlers...
-const handleEvent=require("./sockets/events/handleEvent");
+const handleEvent=require("./sockets/handleEvent");
 
 //connecting to the database...
 mongoose.connect(process.env.URI, 
@@ -53,9 +53,9 @@ app.use("/posts", authorized, postsRouter);
 
 //socket.io
 io.on("connection", socket=>{
-    handleEvent(socket);
+    handleEvent(io, socket);
     socket.on("disconnect", ()=>{
-        console.log("A user has disconnected just now");
+        console.log(`The user ${socket.id} has disconnected`);
     });
 });
 
