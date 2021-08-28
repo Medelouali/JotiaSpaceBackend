@@ -1,7 +1,7 @@
 const User=require("../../../../../database/models/User.js");
 
 const jwt=require("jsonwebtoken");
-const { digest, isInDatabase } =require("./helpers");
+const { digest, isInDatabase } =require("../../../../../logic/requests/helpers");
 const { SignUpSchema } =require("../../../../../logic/joi/joiSchema.js");
 
 
@@ -32,9 +32,9 @@ const signUp=async(req, res)=>{
     };
 
     try {
-        const inDatabase= await isInDatabase(req.body.email);
-        if(inDatabase){
-            response.error="This email has been already used, please use another one";
+        const inDatabase= await isInDatabase(req.body);
+        if(inDatabase!==null){
+            response.error=inDatabase;
             return res.send(response);
         }
     } catch (error) {
@@ -54,7 +54,9 @@ const signUp=async(req, res)=>{
         const savedUser= await userInstance.save();
         const token=jwt.sign({email: savedUser.email, _id: savedUser._id}, process.env.JWT_KEY, {expiresIn: "1h"});
         response.tokens["authToken"]=token;
-        response.data=savedUser;
+        response.data={ username, email, occupation, location, bio, description, posts,
+            friendsIds, currentChatters, messages, unreadMes,unreadNot,
+            unreadFri, unreadInv, signUpTime }=savedUser;
         return res.status(200).send(response);
     }catch(err){
         console.log(err);

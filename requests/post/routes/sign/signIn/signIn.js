@@ -2,7 +2,7 @@ const { SignInSchema } = require("../../../../../logic/joi/joiSchema");
 const User=require("../../../../../database/models/User.js");
 const jwt=require("jsonwebtoken");
 
-const { validPassword } = require("../signUp/helpers");
+const { validPassword } = require("../../../../../logic/requests/helpers");
 
 const signIn=async(req, res)=>{
     const response={
@@ -25,7 +25,9 @@ const signIn=async(req, res)=>{
                 response.error="Wrong password, please try again";
                 return res.status(400).send(response);
             };
-            response.data=user;
+            response.data={ username, email, occupation, location, bio, description, posts,
+                            friendsIds, currentChatters, messages, unreadMes,unreadNot,
+                            unreadFri, unreadInv, signUpTime }=user;
             const token=jwt.sign({_id: user._id, email: user.email}, process.env.JWT_KEY);
             response.tokens["authToken"]=token;
             return res.status(200).send(response);

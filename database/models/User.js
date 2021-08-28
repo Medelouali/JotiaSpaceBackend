@@ -29,28 +29,28 @@ const schema=new mongoose.Schema({
         type: String,
         default: ""
     },
-    discreption:{
+    description:{
         type: String,
         default: ""
     },
     avatar: Buffer,
     posts:[ ],
-    friends_id:[ mongoose.Schema.Types.ObjectId ],
-    current_chatters:[ mongoose.Schema.Types.ObjectId ],
+    friendsIds:[ mongoose.Schema.Types.ObjectId ],
+    currentChatters:[ mongoose.Schema.Types.ObjectId ],
     messages:[  ],
-    unread_mes: {
+    unreadMes: {
         type: Number,
         default: 0
     },
-    unread_not: {
+    unreadNot: {
         type: Number,
         default: 0
     },
-    unread_fri: {
+    unreadFri: {
         type: Number,
         default: 0
     },
-    unread_inv: {
+    unreadInv: {
         type: Number,
         default: 0
     },

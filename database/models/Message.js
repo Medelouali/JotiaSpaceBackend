@@ -3,7 +3,7 @@ const mongoose=require("mongoose");
 const messageSchema=new mongoose.Schema({
     sender_id: mongoose.Schema.Types.ObjectId,
     receiver_id: mongoose.Schema.Types.ObjectId,
-    chatter_name: String,
+    chatterName: String,
     chatter_image: Buffer,
     chats:[ 
         {
