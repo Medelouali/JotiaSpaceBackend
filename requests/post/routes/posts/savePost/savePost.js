@@ -5,7 +5,7 @@ const Post = require("../../../../../database/models/Post.js");
 
 
 const savePost=async(req, res)=>{
-    const response={ error: {}, data: "", done: false};
+    const response={ error: "", data: "", done: false};
 
     try{
         const product={
