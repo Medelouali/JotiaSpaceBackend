@@ -14,7 +14,7 @@ const signIn=async(req, res)=>{
     const valid=SignInSchema.validate(req.body);
     if(valid.error){
         response.error=valid.error.details[0].message;
-        return res.send(response);
+        return res.status(400).send(response);
     };
 
     try {
